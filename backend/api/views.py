@@ -66,13 +66,28 @@ class ProjectView(APIView):
         )
 
 
+class PersonDetailsView(APIView):
+    def get(self, request: Request, *args, **kwargs):
+        person = Person.objects.filter(id=kwargs['person_id']).first()
+        if not person:
+            return Response(
+                status=status.HTTP_404_NOT_FOUND,
+                data={'message': 'NO_PERSON_FOUND'}
+            )
+
+        return Response(
+            status=status.HTTP_200_OK,
+            data={'items': PersonWithProjectsPreviewSerializer(person).data}
+        )
+
+
 class ProjectDetailsView(APIView):
     def get(self, request: Request, *args, **kwargs):
         project = Project.objects.filter(id=kwargs['project_id']).first()
         if not project:
             return Response(
                 status=status.HTTP_404_NOT_FOUND,
-                data={'message': 'NO_PROJECTS_FOUND'}
+                data={'message': 'NO_PROJECT_FOUND'}
             )
 
         return Response(
