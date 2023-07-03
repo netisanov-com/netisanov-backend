@@ -79,8 +79,8 @@ class PersonDetailsView(APIView):
             status=status.HTTP_200_OK,
             data={'items': PersonWithProjectsPreviewSerializer(person).data}
         )
-
-
+      
+      
 class ProjectDetailsView(APIView):
     def get(self, request: Request, *args, **kwargs):
         project = Project.objects.filter(id=kwargs['project_id']).first()
@@ -88,6 +88,7 @@ class ProjectDetailsView(APIView):
             return Response(
                 status=status.HTTP_404_NOT_FOUND,
                 data={'message': 'NO_PROJECT_FOUND'}
+
             )
 
         return Response(
